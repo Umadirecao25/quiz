@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Quiz de Perguntas e Respostas</h1>
+    <div id="pergunta"></div>
+    <div id="opcoes"></div>
+    <div id="resultado"></div>
+</div>
+
+<script>
+
+const perguntas = [{
+    pergunta: "Em qual desses times Messi não jogou?",
+    opcoes: [ "Newell's Old Boys", "Arsenal", "Barcelona", "Inter Miami"],
+    resposta: "Arsenal"
+},
+{
+  pergunta: "Quem foi o primeiro clube a ganhar a Copa do Brasil?",
+  opcoes: ["Grêmio", "Palmeiras", "Internacional", "Flamengo"],
+resposta: "Grêmio"
+},
+{
+  pergunta: "Quem foi o primeiro campeão da Copa do Mundo?",
+  opcoes: ["Brasil", "Equador","Alemanha", "Uruguai"],
+  resposta: "Uruguai"
+},
+{
+  pergunta: "Em que time CR7 jogava em 2008?",
+  opcoes: ["Real Madrid", "Sporting","Manchester United", "Arsenal"],
+  resposta: "Manchester United"
+},
+{
+  pergunta: "Quem foi o campeão da Copa do Mundo 2002?",
+  opcoes: ["Inglaterra","Alemanha","Brasil", "Argentina"],
+  resposta: "Brasil"
+}
+];
+
+const perguntaElemento = document.getElementById("pergunta");
+const opcoesElemento = document.getElementById("opcoes");
+const resultadoElemento = document.getElementById("resultado");
+
+
+let indicePerguntaAtual = 0;
+
+function carregarPergunta(){
+    const perguntaAtual = perguntas[indicePerguntaAtual];
+    perguntaElemento.textContent = perguntaAtual.pergunta;
+
+    opcoesElemento.innerHTML = "";
+    perguntaAtual.opcoes.forEach(opcao => {
+        const botao = document.createElement("button");
+        botao.textContent = opcao;
+        botao.addEventLiistener("click", () => verificarResposta(opcao));
+        opcoesElemento.appendChild(botao);
+    });
+}
+
+function verificarResposta(respostaSelecionada){
+    const perguntaAtual = perguntas[indicePerguntaAtual];
+    if (respostaSelecionada === perguntaAtual.resposta){
+        resultadoElemento.textContent = "Resposta Correta!";
+        resultadoElemento.className = "correto";
+    } else {
+        resultadoElemento.textContent = "Resposta incorreta. A resposta correta é: " + perguntaAtual.resposta;
+        resultadoElemento.className =  "incorreto";
+    }
+
+    // Avança para próxima pergunta ou finaliza o quiz 
+    indicePerguntaAtual++;
+
+    if(indicePerguntaAtual < perguntas.length){
+        setTimeout(carregarPergunta, 2000); // Carrega próxima pergunta após 2 segundos
+    } else{
+        resultadoElemento.textContent = "Quiz concluído!";
+        resultadoElemento.className = "";
+    }
+}
+
+// Carrega a primeira pergunta quando a página carrega
+ carregarPergunta()
+</script>
+  
+</body>
+</html>
